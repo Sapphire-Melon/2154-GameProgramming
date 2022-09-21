@@ -6,13 +6,23 @@ using UnityEngine.InputSystem;
 public class playerCTRL : MonoBehaviour
 {
     public Rigidbody2D rb;
+    private BoxCollider2D coll;
     public Transform groundCheck;
     public LayerMask groundLayer;
 
+    [SerializeField] private LayerMask jumpableGround;
+
     private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 16f;
+    [SerializeField] private float speed = 8f;
+    [SerializeField] private float jumpingPower = 16f;
     private bool isFacingRight = true;
+    private float dirX = 0f;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
+    }
 
     void Update()
     {
@@ -23,6 +33,14 @@ public class playerCTRL : MonoBehaviour
         else if (isFacingRight && horizontal < 0f)
         {
             Flip();
+        }
+        
+        dirX = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(dirX * speed, rb.velocity.y);
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
     }
 
@@ -44,11 +62,6 @@ public class playerCTRL : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
-
     private void Flip()
     {
         isFacingRight = !isFacingRight;
@@ -60,5 +73,10 @@ public class playerCTRL : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         horizontal = context.ReadValue<Vector2>().x;
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 }
