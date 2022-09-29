@@ -17,6 +17,7 @@ public class playerCTRL : MonoBehaviour
     [SerializeField] private float jumpingPower = 16f;
     private bool isFacingRight = true;
     private float dirX = 0f;
+    [SerializeField] public Audio audioController;
 
     private void Start()
     {
@@ -60,6 +61,7 @@ public class playerCTRL : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
+        audioController.PlayJumpingSound();
     }
 
     private void Flip()
@@ -73,6 +75,7 @@ public class playerCTRL : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         horizontal = context.ReadValue<Vector2>().x;
+        audioController.PlayWalkingSound();
     }
 
     private bool IsGrounded()
