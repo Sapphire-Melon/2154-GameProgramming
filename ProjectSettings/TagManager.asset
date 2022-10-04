@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Sea
+  - Gem
+  - banana
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hazard
   - Water
   - UI
   - Ground
