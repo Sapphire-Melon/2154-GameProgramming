@@ -9,6 +9,8 @@ public class playerCTRL : MonoBehaviour
     private BoxCollider2D coll;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public ParticleSystem dust;
+    public ParticleSystem dropDust;
 
     [SerializeField] private LayerMask jumpableGround;
 
@@ -66,6 +68,7 @@ public class playerCTRL : MonoBehaviour
 
     private void Flip()
     {
+        CreateDust();
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
@@ -80,6 +83,12 @@ public class playerCTRL : MonoBehaviour
 
     private bool IsGrounded()
     {
+        dropDust.Play();
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+
+    private void CreateDust()
+    {
+        dust.Play();
     }
 }

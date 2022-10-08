@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public ParticleSystem dust;
 
     private float horizontal;
     private float speed = 8f;
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
+        CreateDust();
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
@@ -60,5 +62,10 @@ public class PlayerMovement : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         horizontal = context.ReadValue<Vector2>().x;
+    }
+
+    private void CreateDust()
+    {
+        dust.Play();
     }
 }

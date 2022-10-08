@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Finish : MonoBehaviour
 {
     private AudioSource finishSound;
+    public ParticleSystem cheer;
     // Start is called before the first frame update
     private void Start()
     {
@@ -23,7 +24,11 @@ public class Finish : MonoBehaviour
 
     private void CompleteLevel()
     {
-        Debug.Log("Level Complete!");
+        CheerUp();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    private void CheerUp()
+    {
+        cheer.Play();
     }
 }
